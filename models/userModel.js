@@ -8,11 +8,15 @@ const UserSchema = mongoose.Schema({
   },
   password: {
     type: String,
+    minlength: 5,
     required: true,
     unique: true,
   },
+  username: {
+    type: String,
+  },
 });
 
-const userList = mongoose.model("User", UserSchema);
+const User = mongoose.model("User", UserSchema);
 
-export default userList;
+export default User;
