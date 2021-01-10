@@ -1,5 +1,6 @@
 import express from "express";
-import mongoose from "mongoose";
+import config from "./config/config.js";
+import connectDB from "./config/db.js";
 import bodyParser from "body-parser";
 import cors from "cors";
 import bcrypt from "bcrypt";
@@ -7,22 +8,14 @@ import jwt from "jsonwebtoken";
 
 const app = express();
 
+// database connection details
+connectDB();
+
 app.use(bodyParser.json());
 app.use(cors());
 
-// db connection
-const CONNECTION_URL =
-  "mongodb+srv://organicFood:food@123@organic-food.3cdit.mongodb.net/organicFood";
-const PORT = process.env.PORT || 5000;
+app.get("/", (req, res) => res.send("API is running"));
 
-mongoose
-  .connect(CONNECTION_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() =>
-    app.listen(PORT, () => console.log(`server is running on port: ${PORT}`))
-  )
-  .catch((error) => console.log(error.message));
-
-mongoose.set("useFindAndModify", false);
+app.listen(config.port, () =>
+  console.log(`Server is running on port: ${config.port}`)
+);
