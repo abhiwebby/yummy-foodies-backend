@@ -1,16 +1,17 @@
 import express from "express";
-import userCtrl from "../controllers/userCtrl";
-import authCtrl from "../controllers/authCtrl";
+import {
+  addUser,
+  login,
+  deleteUser,
+  tokenIsValid,
+} from "../controllers/userCtrl.js";
+import { auth } from "../controllers/authCtrl.js";
 
 const router = express.Router();
 
-// router.route('')
-
-// import { getUsers, addUser } from "../controllers/userCtrl";
-
-// const router = express.Router();
-
-// router.get("/", getUsers);
-// router.post("/", addUser);
+router.post("/register", addUser);
+router.post("/login", login);
+router.delete("/delete", auth, deleteUser);
+router.post("/tokenisvalid", tokenIsValid);
 
 export default router;
