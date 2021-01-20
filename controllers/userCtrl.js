@@ -90,3 +90,35 @@ export const login = async (req, res) => {
     res.status(500).json({ Error: error.message });
   }
 };
+
+// Delete
+export const deleteUser = async (req, res) => {
+  try {
+    const userDeletion = await User.findByIdAndDelete(req.user);
+    res.json({ userDeletion });
+  } catch (error) {
+    res.status(500).json({ Error: error.message });
+  }
+};
+
+//tokenIsValid
+export const tokenIsValid = async (req, res) => {
+  try {
+    const token = req.header("x-auth-token");
+    if (!token) {
+      return res.json(false);
+    }
+    const verified = jwt.verify(token, config.jwtSecret);
+    if (!verified) {
+      return res.json(false);
+    }
+    const user = await user.findById(verified.id);
+    if (!user) {
+      return res.json(false);
+    }
+
+    return res.json(true);
+  } catch (error) {
+    res.status(500).json({ Error: error.message });
+  }
+};
